@@ -15,8 +15,11 @@ class Command {
       console.log(`Listening on: ${address}`)
     })
     this.xboxController.on('sticks', ({ leftY, rightY }) => {
-      let left = (Math.abs(leftY) < 20) ? 0 : (-2 * leftY)
-      let right = (Math.abs(rightY) < 20) ? 0 : (-2 * rightY)
+      let right = (Math.abs(leftY) < 20) ? 0 : (2 * leftY)
+      let left = (Math.abs(rightY) < 20) ? 0 : (2 * rightY)
+
+      if (right > 250) right = 256
+      if (right < -250) right = -256
 
       this.server.send('move', { left, right })
     })
